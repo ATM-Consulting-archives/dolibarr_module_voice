@@ -49,15 +49,46 @@ $(document).ready(function () {
 
 function transcriptionAnalyser(ph) {
 
-    var pattern = /^recherche produit (\w+)/i;
-    var matches = ph.match(pattern);
-    
+    var matches = ph.match(/^recherche produit (.+)/i);
     if(matches && matches.length>1) {
         search = matches[1];    
             
         $('#sallsearchleftp').val(search);
         $('#sallsearchleftp').closest('form').submit();
         
+        return 1;     
+    }
+
+    var matches = ph.match(/^nouvelle facture/i);
+    if(matches) {
+        document.location.href="<?php echo dol_buildpath('/compta/facture.php?action=create',1); ?>";
+        
+        return 1;     
     }
       
+    var matches = ph.match(/^nouvelle propale/i);
+    if(matches) {
+        document.location.href="<?php echo dol_buildpath('/comm/propal.php?action=create',1); ?>";
+        
+        return 1;     
+    }
+      
+    var matches = ph.match(/^nouvel événement/i);
+    if(matches) {
+        document.location.href="<?php echo dol_buildpath('/comm/action/card.php?action=create',1); ?>";
+        
+        return 1;     
+    }
+      
+    var matches = ph.match(/^déconnect(.*) moi/i);
+    
+    if(matches) {
+        document.location.href="<?php echo dol_buildpath('/user/logout.php',1); ?>";
+        
+        return 1;     
+    }
+    
+    alert("Commande non reconnue : "+ph);
+
 }
+
